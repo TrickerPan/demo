@@ -19,8 +19,6 @@ services:
 
   php-fpm:
     image: php:7.2-fpm-alpine
-    volumes:
-      - './code:/var/www/html'
 
   mysql:
     image: mysql:8

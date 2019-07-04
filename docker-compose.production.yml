@@ -19,8 +19,6 @@ services:
     build:
       context: .
       dockerfile: ./fpm/Dockerfile
-    volumes:
-      - './fpm/config:/usr/local/ect/php'
 
   mysql:
     image: mysql:8
