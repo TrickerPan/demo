@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:1.16-alpine
+    ports:
+      - '172.19.0.1:80:80'
+      - '172.19.0.1:443:443'
+    volumes:
+      - './code:/var/www/html'
+      - './nginx/conf.d:/etc/nginx/conf.d'
+      - './nginx/ssl:/etc/nginx/ssl'
+      - './nginx/logs:/var/log/nginx'
+    command: ['nginx-debug', '-g', 'daemon off;']
+    depends_on:
+      - php-fpm
+      - mysql
+      - redis
+
+  php-fpm:
+    image: php:7.2-fpm-alpine
+    volumes:
+      - './code:/var/www/html'
+
+  mysql:
+    image: mysql:8
+    ports:
+      - '172.19.0.1:3306:3306'
+    volumes:
+      - './mysql/data:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: Tricker110112
+      MYSQL_DATABASE: blog
+
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - './redis/data:/data'

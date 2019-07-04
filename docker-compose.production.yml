@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - '172.19.0.1:80:80'
+      - '172.19.0.1:443:443'
+    volumes:
+      - './nginx/logs:/var/log/nginx'
+    depends_on:
+      - php-fpm
+      - mysql
+      - redis
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./fpm/Dockerfile
+    volumes:
+      - './fpm/config:/usr/local/ect/php'
+
+  mysql:
+    image: mysql:8
+    ports:
+      - '172.19.0.1:3306:3306'
+    volumes:
+      - './mysql/data:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: Tricker110112
+      MYSQL_DATABASE: blog
+
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - './redis/data:/data'
