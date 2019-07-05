@@ -16,7 +16,7 @@
 Route::domain('blog.tricker.org')->group(function () {
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('home');
 
     Route::get('/hello/{name}', function ($name) {
         return "Hello, {$name}!";

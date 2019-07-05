@@ -14,14 +14,17 @@ services:
     command: ['nginx-debug', '-g', 'daemon off;']
     depends_on:
       - php-fpm
-      - mysql
-      - redis
 
   php-fpm:
     image: php:7.2-fpm-alpine
+    volumes:
+      - './code:/var/www/html'
+    depends_on:
+      - mysql
+      - redis
 
   mysql:
-    image: mysql:8
+    image: mysql:5.7
     ports:
       - '172.19.0.1:3306:3306'
     volumes:
